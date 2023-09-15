@@ -11,6 +11,8 @@
 
 using namespace std;
 
+//https://www.youtube.com/watch?v=GsMZYDBFJv4
+
 
 struct Node {
     int id;
@@ -22,17 +24,28 @@ vector<Node> readGraphfromFile(const string& filePath){
     vector<Node> nodes;
 
     int source, target;
-    
+    while (file >> source >> target){
+        int maxNodeID = max(source, target);
+        if (maxNodeID > nodes.size()){
+            nodes.resize(maxNodeID + 1);
+    }
 
 
+    nodes[source].id = source;
+    nodes[source].neighbors.push_back(target);
+    nodes[target].id = target;
+    nodes[target].neighbors.push_back(source);
+    }
+
+    return nodes;
 
 
 }
 
 
-void kernighanLinAlgorithm(const vector<node> &nodes, const vector<edge> &edges){
+//void kernighanLinAlgorithm(const vector<Node> &nodes, const vector<edge> &edges){
 
-}
+//}
 
 
 
