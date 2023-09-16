@@ -22,25 +22,24 @@ struct Node {
 vector<Node> readGraphfromFile(const string& filePath){
     ifstream file(filePath);
     vector<Node> nodes;
-
-    int source, target;
-    while (file >> source >> target){
-        int maxNodeID = max(source, target);
-        if (maxNodeID > nodes.size()){
-            nodes.resize(maxNodeID + 1);
+    int node1, node2;
+    while (file >> node1 >> node2){
+        if (node1 >= nodes.size()){
+            nodes.resize(node1 + 1);
+        }
+        if (node2 >= nodes.size()){
+            nodes.resize(node2 + 1);
+        }
+        nodes[node1].id = node1;
+        nodes[node2].id = node2;
+        nodes[node1].neighbors.push_back(node2);
+        nodes[node2].neighbors.push_back(node1);
     }
 
-
-    nodes[source].id = source;
-    nodes[source].neighbors.push_back(target);
-    nodes[target].id = target;
-    nodes[target].neighbors.push_back(source);
-    }
-
+    //cout << "Number of nodes: " << nodes.size() << endl;
+    //cout << "Node 1 has " << nodes[1].neighbors.size() << " neighbors." << endl;
     return nodes;
-
-
-}
+};
 
 
 //void kernighanLinAlgorithm(const vector<Node> &nodes, const vector<edge> &edges){
@@ -72,19 +71,30 @@ if (inputFile.fail()){
 
 //read each line of the file
 
-string line;
+//string line;
 
-while (getline(inputFile, line)){
-    cout << line << endl;
-}
+//while (getline(inputFile, line)){
+//    cout << line << endl;
+//}
 
 
 
 //Close file
 inputFile.close();
 
+//Call function to read graph from file
+vector<Node> nodes = readGraphfromFile(fileName);
+
+//List the Neighbors of each node
 
 
+for (int i = 0; i < nodes.size(); i++){
+    cout << "Node " << nodes[i].id << " has " << nodes[i].neighbors.size() << " neighbors." << endl;
+    for (int j = 0; j < nodes[i].neighbors.size(); j++){
+        cout << nodes[i].neighbors[j] << " ";
+    }
+    cout << endl;
+}
 
 return 0;
 }
